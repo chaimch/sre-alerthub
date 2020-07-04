@@ -8,7 +8,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jinzhu/gorm"
 	"gitlab.mobiuspace.net/mobiuspace/sre-team/sre-alerthub/common"
 )
 
@@ -17,9 +16,9 @@ const (
 )
 
 type Alerts struct {
-	gorm.Model
+	Model
 	Id              int        `gorm:"column(id);auto" json:"id,omitempty"`
-	Rule            *Rules     `gorm:"foreignkey(fk)" json:"rule_id"`
+	Rule            *Rules     `gorm:"foreignkey(Rules)" json:"rule_id"`
 	Labels          string     `gorm:"column(labels);size(4095)" json:"labels"`
 	Value           float64    `gorm:"column(value)" json:"value"`
 	Count           int        `json:"count"`
@@ -81,9 +80,10 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 				log.Println("Get something")
 			}
 		} else {
-			Ormer.Table(AlertsTable).Create(&Alerts{
+			alert := Alerts{
 				// TODO: reset the "Id" to 0,which is very important:after a record is inserted,the value of "Id" will not be 0,but the auto primary key of the record
 				Id:              0,
+				Rule:            &Rules{Id: a.ruleId},
 				Labels:          a.label,
 				FiredAt:         &a.firedAt,
 				Description:     elemt.Annotations.Description,
@@ -95,7 +95,9 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 				ConfirmedAt:     &todayZero,
 				ConfirmedBefore: &todayZero,
 				ResolvedAt:      &todayZero,
-			})
+			}
+			log.Println("ruleId:", a.ruleId)
+			Ormer.Table(AlertsTable).Create(alert)
 		}
 	}
 }
