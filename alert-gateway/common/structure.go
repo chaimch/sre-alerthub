@@ -19,3 +19,16 @@ type Alert struct {
 	ValidUntil time.Time         `json:"valid_until"`
 	Value      float64           `json:"value"`
 }
+
+type UserGroup struct {
+	Id                    int64
+	StartTime             string
+	EndTime               string
+	Start                 int
+	Period                int
+	ReversePolishNotation string
+	User                  string
+	Group                 string
+	DutyGroup             string
+	Method                string
+}
