@@ -17,10 +17,17 @@ func init() {
 	if err != nil {
 		log.Panic(err)
 	}
+
+	// TODO: 上线前删除
+	Ormer.LogMode(true)
+	Ormer.AutoMigrate(
+		&Alerts{},
+		&Rules{},
+	)
 }
 
+// refer to	gorm.Model
 type Model struct {
-	gorm.Model
 	CreatedAt time.Time  `gorm:"column:created_at; type:timestamp; default: NOW(); not null" json:"created_at"`
 	UpdatedAt time.Time  `gorm:"column:created_at; type:timestamp; default: NOW(); not null" json:"updated_at"`
 	DeletedAt *time.Time `gorm:"column:created_at; type:timestamp; default: NOW(); null" sql:"index" json:"deleted_at"`
