@@ -80,7 +80,7 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 				log.Println("Get something")
 			}
 		} else {
-			alert := Alerts{
+			Ormer.Table(AlertsTable).Create(&Alerts{
 				// TODO: reset the "Id" to 0,which is very important:after a record is inserted,the value of "Id" will not be 0,but the auto primary key of the record
 				Id:              0,
 				Rule:            &Rules{Id: a.ruleId},
@@ -95,9 +95,7 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 				ConfirmedAt:     &todayZero,
 				ConfirmedBefore: &todayZero,
 				ResolvedAt:      &todayZero,
-			}
-			log.Println("ruleId:", a.ruleId)
-			Ormer.Table(AlertsTable).Create(alert)
+			})
 		}
 	}
 }

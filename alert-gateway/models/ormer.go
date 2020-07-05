@@ -13,7 +13,7 @@ var Ormer *gorm.DB
 func init() {
 	var err error
 	// TODO: 待加入配置解析
-	Ormer, err = gorm.Open("mysql", "root:root@/alerthub?charset=utf8")
+	Ormer, err = gorm.Open("mysql", "root:root@/alerthub?charset=utf8&parseTime=true")
 	if err != nil {
 		log.Panic(err)
 	}
