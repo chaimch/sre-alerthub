@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"time"
 
+	_ "gitlab.mobiuspace.net/mobiuspace/sre-team/sre-alerthub/common"
 	"gitlab.mobiuspace.net/mobiuspace/sre-team/sre-alerthub/models"
 	"gitlab.mobiuspace.net/mobiuspace/sre-team/sre-alerthub/routers"
 )
