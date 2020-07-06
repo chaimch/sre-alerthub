@@ -17,9 +17,9 @@ const (
 
 type Alerts struct {
 	Model
-	ID              int   `gorm:"primary_key;auto" json:"id,omitempty"`
-	Rule            Rules `gorm:"foreignkey:RuleID" json:"rule_id"`
-	RuleID          int
+	ID              int64 `gorm:"primary_key;auto" json:"id,omitempty"`
+	Rule            Rules `gorm:"foreignkey:RuleID;save_associations:false:false" json:"rule_id"`
+	RuleID          int64
 	Labels          string     `gorm:"size:4095" json:"labels"`
 	Value           float64    `json:"value"`
 	Count           int        `json:"count"`
@@ -90,8 +90,9 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 		} else {
 			alert := &Alerts{
 				// TODO: reset the "Id" to 0,which is very important:after a record is inserted,the value of "Id" will not be 0,but the auto primary key of the record
-				ID:              0,
-				Rule:            Rules{ID: a.ruleId},
+				ID: 0,
+				// Rule:            Rules{ID: a.ruleId},
+				RuleID:          a.ruleId,
 				Labels:          a.label,
 				FiredAt:         &a.firedAt,
 				Description:     elemt.Annotations.Description,

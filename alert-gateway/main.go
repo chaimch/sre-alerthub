@@ -8,10 +8,12 @@ import (
 	"os/signal"
 	"time"
 
+	"gitlab.mobiuspace.net/mobiuspace/sre-team/sre-alerthub/models"
 	"gitlab.mobiuspace.net/mobiuspace/sre-team/sre-alerthub/routers"
 )
 
 func main() {
+	defer models.Ormer.Close()
 
 	srv := &http.Server{
 		Addr:    ":8080",
