@@ -17,6 +17,7 @@ type Groups struct {
 	Id   int64  `gorm:"auto" json:"id,omitempty"`
 	Name string `gorm:"unique;size:255" json:"name"`
 	User string `gorm:"size:1023" json:"user"`
+	Model
 }
 
 type HttpRes struct {

@@ -24,6 +24,9 @@ func init() {
 		&Alerts{},
 		&Rules{},
 		&Receivers{},
+		&Groups{},
+		&Plans{},
+		&Proms{},
 	)
 }
 
