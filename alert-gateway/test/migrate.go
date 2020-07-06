@@ -11,14 +11,14 @@ func main() {
 	// 	&Users{},
 	// )
 
-	models.Ormer.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(
-		&models.Rules{},
-		&models.Alerts{},
-	)
-
-	// models.Ormer.AutoMigrate(
-	// 	&models.Alerts{},
+	// models.Ormer.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(
 	// 	&models.Rules{},
+	// 	&models.Alerts{},
 	// )
 
+	models.Ormer.AutoMigrate(
+		&models.Alerts{},
+		&models.Rules{},
+		&models.Receivers{},
+	)
 }
