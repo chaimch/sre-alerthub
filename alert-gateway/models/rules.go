@@ -9,7 +9,7 @@ type Rules struct {
 	ID          int64  `gorm:"primary_key;auto;" json:"id,omitempty"`
 	Expr        string `gorm:"size:1023" json:"expr"`
 	Op          string `gorm:"size:31" json:"op"`
-	Value       string `gorm:"size:1023" json:"op"`
+	Value       string `gorm:"size:1023" json:"value"`
 	For         string `gorm:"size:1023" json:"for"`
 	Summary     string `gorm:"size:1023" json:"summary"`
 	Description string `gorm:"size:1023" json:"description"`
