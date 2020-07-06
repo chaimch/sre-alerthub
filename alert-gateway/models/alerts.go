@@ -212,12 +212,12 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 				continue
 			}
 
-			// 如果 userGroup 的反向波兰符已设置则跳过
+			// 如果 userGroup 的逆波兰已设置说明标签表达式校核合法则跳过
 			if itemUserGroupList.ReversePolishNotation != "" {
 				continue
 			}
 
-			// 如果计算 userGroup 的反向波兰符失败则跳过
+			// 如果标签匹配规则不符合逆波兰表达式, 说明表达式不合法, 则跳过
 			if !common.CalculateReversePolishNotation(elemt.Labels, itemUserGroupList.ReversePolishNotation) {
 				continue
 			}

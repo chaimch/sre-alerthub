@@ -2,6 +2,7 @@ package common
 
 import "strings"
 
+// 逆波兰表达式实现, 主要是检验表达式是否语法正确
 func CalculateReversePolishNotation(labelmap map[string]string, expression string) bool {
 	stack := []bool{}
 	exp := strings.Split(expression, ` `)
