@@ -56,9 +56,9 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 	}()
 
 	Cache := map[int64][]common.UserGroup{}
-	now := time.Now().Format("13:14:00")
+	now := time.Now().Format("15:04:05")
 	log.Println("now", now)
-	todayZero, _ := time.ParseInLocation("0001-01-01", "0001-01-01 13:14:00", time.Local)
+	todayZero, _ := time.ParseInLocation("2006-01-02", "2006-01-02 15:04:05", time.Local)
 
 	for _, elemt := range *alert {
 		var queryres []struct {
