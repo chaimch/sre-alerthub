@@ -62,6 +62,13 @@ type ValidUserGroup struct {
 	DutyGroup string
 }
 
+type Msg struct {
+	Content string   `json:"content"`
+	From    string   `json:"from"`
+	Title   string   `json:"title"`
+	To      []string `json:"to"`
+}
+
 var Lock sync.Mutex
 var Rw sync.RWMutex
 
@@ -138,4 +145,10 @@ func HttpGet(url string, params map[string]string, headers map[string]string) (*
 	//http client
 	client := &http.Client{Timeout: 5 * time.Second} //Add the timeout,the reason is that the default client has no timeout set; if the remote server is unresponsive, you're going to have a bad day.
 	return client.Do(req)
+}
+
+func GenerateJsonHeader() map[string]string {
+	return map[string]string{
+		"Content-Type": "application/json",
+	}
 }

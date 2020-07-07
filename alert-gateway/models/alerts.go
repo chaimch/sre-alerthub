@@ -56,9 +56,9 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 	}()
 
 	Cache := map[int64][]common.UserGroup{}
-	now := time.Now().Format("15:04:05")
+	now := time.Now().Format("13:14:00")
 	log.Println("now", now)
-	todayZero, _ := time.ParseInLocation("2006-01-02", "2006-01-02 15:04:05", time.Local)
+	todayZero, _ := time.ParseInLocation("0001-01-01", "0001-01-01 13:14:00", time.Local)
 
 	for _, elemt := range *alert {
 		var queryres []struct {
@@ -139,7 +139,7 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 		}
 
 		// 从 alert 中获取到对应的待恢复报警时, 需更新 status & resolved_at
-		err = tx.Table(AlertsTable).Where("id=?", recoverInfo.Id).Updates(map[string]interface{}{
+		err = tx.Table(AlertsTable).Where("id=?", recoverInfo.Id).Update(map[string]interface{}{
 			"status":      elemt.State,
 			"summary":     elemt.Annotations.Summary,
 			"description": elemt.Annotations.Description,
