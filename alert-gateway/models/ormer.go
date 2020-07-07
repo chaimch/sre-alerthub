@@ -27,6 +27,8 @@ func init() {
 		&Groups{},
 		&Plans{},
 		&Proms{},
+		&Maintains{},
+		&Hosts{},
 	)
 }
 
