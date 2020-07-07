@@ -79,7 +79,7 @@ func Filter(alerts map[int64][]Record, maxCount map[int64]int) map[string][]comm
 			Summary string
 		}
 		AlertsMap := map[int][]common.SingleAlert{}
-		models.Ormer.Select("plan_id,summary").Where("id=?", key).Find(&planId)
+		models.Ormer.Table(models.RulesTable).Select("plan_id,summary").Where("id=?", key).Find(&planId)
 		if _, ok := Cache[planId.PlanId]; !ok {
 			models.Ormer.Table(models.ReceiversTable).Select("id,start_time,end_time,start,period,reverse_polish_notation,user,`group`,duty_group,method").Where("plan_id=?", planId.PlanId).Find(&usergroupList)
 			Cache[planId.PlanId] = usergroupList
