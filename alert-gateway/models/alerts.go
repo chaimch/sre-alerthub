@@ -2,7 +2,6 @@ package models
 
 import (
 	"log"
-	"runtime"
 	"sort"
 	"strconv"
 	"strings"
@@ -47,18 +46,10 @@ func (Alerts) TableName() string {
 }
 
 func (u *Alerts) AlertsHandler(alert *common.Alerts) {
-	defer func() {
-		if e := recover(); e != nil {
-			buf := make([]byte, 16384)
-			buf = buf[:runtime.Stack(buf, false)]
-			log.Panic("Panic in AlertsHandler:", e, buf)
-		}
-	}()
+	defer common.Panic()
 
-	Cache := map[int64][]common.UserGroup{}
-	now := time.Now().Format("15:04:05")
-	log.Println("now", now)
-	todayZero, _ := time.ParseInLocation("2006-01-02", "2006-01-02 15:04:05", time.Local)
+	today := common.GetTodayDateForYYmmDD()
+	planToUserGroupCache := common.GetPlanToUserGroupCache()
 
 	for _, elemt := range *alert {
 		var queryres []struct {
@@ -87,9 +78,9 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 				Value:           elemt.Value,
 				Status:          int8(elemt.State),
 				Hostname:        a.hostname,
-				ConfirmedAt:     &todayZero,
-				ConfirmedBefore: &todayZero,
-				ResolvedAt:      &todayZero,
+				ConfirmedAt:     &today,
+				ConfirmedBefore: &today,
+				ResolvedAt:      &today,
 			})
 			continue
 		}
@@ -169,12 +160,12 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 		Ormer.Table(RulesTable).Select("plan_id,summary").Where("id=?", a.ruleId).Find(&planId)
 
 		// 当前 ruleId 对应的 planId 不在 Cache 中则添加
-		if _, ok := Cache[planId.PlanId]; !ok {
+		if _, ok := planToUserGroupCache[planId.PlanId]; !ok {
 			Ormer.Table(ReceiversTable).Select("id,start_time,end_time,start,period,reverse_polish_notation,user,`group`,duty_group,method").Where("plan_id=? AND (method='LANXIN' OR method LIKE 'HOOK %')", planId.PlanId).Find(&userGroupList)
-			Cache[planId.PlanId] = userGroupList
+			planToUserGroupCache[planId.PlanId] = userGroupList
 		}
 
-		for _, itemUserGroupList := range Cache[planId.PlanId] {
+		for _, itemUserGroupList := range planToUserGroupCache[planId.PlanId] {
 			// 如果当前组不可用或不在值日时候, 则跳过
 			if !(itemUserGroupList.IsValid() && itemUserGroupList.IsOnDuty()) {
 				continue

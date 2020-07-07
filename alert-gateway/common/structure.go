@@ -69,6 +69,8 @@ type Msg struct {
 	To      []string `json:"to"`
 }
 
+type PlanToUserGroupCache map[int64][]UserGroup
+
 var Lock sync.Mutex
 var Rw sync.RWMutex
 
@@ -151,4 +153,17 @@ func GenerateJsonHeader() map[string]string {
 	return map[string]string{
 		"Content-Type": "application/json",
 	}
+}
+
+func Panic() {
+	if e := recover(); e != nil {
+		// buf := make([]byte, 16384)
+		// buf = buf[:runtime.Stack(buf, false)]
+		// log.Panic("Panic in AlertsHandler:", e, buf)
+		log.Panic("Panic: ", e)
+	}
+}
+
+func GetPlanToUserGroupCache() PlanToUserGroupCache {
+	return PlanToUserGroupCache{}
 }
