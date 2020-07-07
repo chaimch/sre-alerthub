@@ -374,6 +374,7 @@ func init() {
 				tx.Commit()
 
 				Sender(ready2send, now)
+
 				common.Lock.Lock()
 				recover2send := common.Recover2Send
 				common.Recover2Send = map[string]map[[2]int64]*common.Ready2Send{
