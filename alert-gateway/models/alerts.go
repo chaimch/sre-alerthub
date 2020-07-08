@@ -49,7 +49,7 @@ func (u *Alerts) AlertsHandler(alert *common.Alerts) {
 	defer common.Panic()
 
 	today := common.GetTodayDateForYYmmDD()
-	planToUserGroupCache := common.GetPlanToUserGroupCache()
+	planToUserGroupCache := common.PlanToUserGroupCache{}
 
 	for _, elemt := range *alert {
 		var queryres []struct {

@@ -163,7 +163,6 @@ func (r *Reloader) getPromRules() ([]PromRules, error) {
 		level.Error(r.logger).Log("msg", "decode rule error", "error", err)
 		return data, err
 	}
-
 	if ruleresp.Code != 0 {
 		err = fmt.Errorf("get rules error: %s", ruleresp.Msg)
 		return data, err
@@ -187,7 +186,6 @@ func (r *Reloader) getPromRules() ([]PromRules, error) {
 		level.Error(r.logger).Log("msg", "decode prom error", "error", err)
 		return data, err
 	}
-
 	if promresp.Code != 0 {
 		err = fmt.Errorf("get prom error: %s", promresp.Msg)
 		return data, err
@@ -197,6 +195,7 @@ func (r *Reloader) getPromRules() ([]PromRules, error) {
 	//fill in url
 	for idx, i := range data {
 		for _, j := range promresp.Data {
+			level.Info(r.logger).Log("msg", "i.Prom.ID", i.Prom.ID, "j.ID", j.ID)
 			if i.Prom.ID == j.ID {
 				data[idx].Prom.URL = j.URL
 				break

@@ -7,10 +7,12 @@ import (
 
 var Router *gin.Engine
 
-func init()  {
+func init() {
 	Router = gin.Default()
 	v1 := Router.Group("/api/v1")
 	{
 		v1.POST("/alerts", controllers.HandleAlerts)
+		v1.GET("/rules", controllers.GetRules)
+		v1.GET("/proms", controllers.GetAllProms)
 	}
 }

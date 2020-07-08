@@ -2,7 +2,6 @@ package models
 
 import (
 	"log"
-	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -34,7 +33,8 @@ func init() {
 
 // refer to	gorm.Model
 type Model struct {
-	CreatedAt time.Time  `gorm:"type:timestamp; default: NOW(); not null" json:"created_at"`
-	UpdatedAt time.Time  `gorm:"type:timestamp; default: NOW(); not null" json:"updated_at"`
-	DeletedAt *time.Time `gorm:"type:timestamp; null" sql:"index" json:"deleted_at"`
+	// TODO: CreatedAt & UpdatedAt & DeletedAt 会增加多余的 select
+	// CreatedAt time.Time  `gorm:"type:timestamp; default: NOW(); not null" json:"created_at"`
+	// UpdatedAt time.Time  `gorm:"type:timestamp; default: NOW(); not null" json:"updated_at"`
+	// DeletedAt *time.Time `gorm:"type:timestamp; null" sql:"index" json:"deleted_at"`
 }

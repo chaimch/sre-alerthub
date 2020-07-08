@@ -163,7 +163,3 @@ func Panic() {
 		log.Panic("Panic: ", e)
 	}
 }
-
-func GetPlanToUserGroupCache() PlanToUserGroupCache {
-	return PlanToUserGroupCache{}
-}
